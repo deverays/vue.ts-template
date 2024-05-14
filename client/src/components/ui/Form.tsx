@@ -1,5 +1,10 @@
-import { defineComponent, onMounted, onUnmounted } from "vue";
-import classNames from "classnames";
+/**Vue */
+import { defineComponent, onMounted, onUnmounted, h } from "vue";
+
+/**Lib */
+import { cn } from "../../lib/utilts";
+
+/**Utils */
 import imports from "../../utils/imports";
 
 const FormInput = defineComponent({
@@ -22,15 +27,11 @@ const FormInput = defineComponent({
   render() {
     const { label, errorActive, type, $emit } = this;
 
-    return (
-      <div
-        class={classNames(
-          "transition-all flex flex-col items-center w-full relative"
-        )}
-      >
+    return h(
+      <div class={cn("transition-all flex flex-col items-center w-full")}>
         <input
           placeholder={label}
-          class={classNames(
+          class={cn(
             "transition-all w-[90%] h-12 pl-3 outline-none resize-none rounded-xl font-poppins-regular",
             "dark:bg-dark-200 dark:ring-dark-100 dark:text-gray-200 dark:placeholder:text-gray-200",
             "bg-gray-100 ring-gray-200 text-black placeholder:text-black",
@@ -50,21 +51,19 @@ const FormInput = defineComponent({
 const FormParagraph = defineComponent({
   name: "FormParagraph",
   props: {
-    label: {
+    to: {
       type: String,
-      default: "Default Form Label",
+      default: "/",
     },
   },
-  emits: ["click"],
   render() {
-    const { label } = this;
-    return (
-      <button
-        onClick={() => this.$emit("click")}
+    return h(
+      <router-link
+        to={this.$props.to}
         class="transition-all opacity-60 hover:opacity-80 text-black dark:text-gray-200 font-rubik-regular"
       >
-        {label}
-      </button>
+        {this.$slots.default ? this.$slots.default() : []}
+      </router-link>
     );
   },
 });
@@ -112,12 +111,12 @@ const FormButton = defineComponent({
   },
   render() {
     const { keypress, icon, label, active } = this;
-    return (
+    return h(
       <button
         id="FormButton"
         accesskey={keypress}
         onClick={() => this.$emit("click")}
-        class={classNames(
+        class={cn(
           "transition-all relative flex items-center h-[60px] w-[60px] group pl-3.5 rounded-xl bg-blue-600",
           {
             "pointer-events-auto": active,
@@ -137,9 +136,8 @@ const FormButton = defineComponent({
 const Form = defineComponent({
   name: "Form",
   props: {
-    label: {
+    title: {
       type: String,
-      default: "Default Form Label",
     },
     top: {
       type: [String, Object, Function],
@@ -152,11 +150,11 @@ const Form = defineComponent({
   },
   render() {
     const { store } = imports();
-    const { label, bottom, top } = this.$props;
+    const { title, bottom, top } = this.$props;
 
-    return (
+    return h(
       <div
-        class={classNames(
+        class={cn(
           "transition-all flex flex-col items-center w-[90%] h-[95%] sm:h-[90%] md:w-[420px] rounded-tr-[10%] rounded-xl ring-8 bg-gray-200 dark:bg-dark-100 ring-gray-200 dark:ring-dark-100 z-[500]",
           {
             "pointer-events-auto": store._isProgress >= 100,
@@ -165,7 +163,7 @@ const Form = defineComponent({
         )}
       >
         <h1 class="transition-all text-black dark:text-gray-200 text-3xl font-poppins-bold pointer-events-none mt-10 mb-8">
-          {label}
+          {title}
         </h1>
         <div class="flex flex-col justify-between items-center h-full w-full">
           <span class="flex flex-col gap-y-3 items-center w-full">{top}</span>

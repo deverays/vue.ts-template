@@ -1,9 +1,7 @@
 <template>
-  <app-layout>
-    <img v-lazy="logo">
-  </app-layout>
+  <AppContainer> </AppContainer>
 </template>
 
 <script setup lang="ts">
-import logo from "../assets/images/logo.png"
+import { AppContainer } from "../components/Container";
 </script>

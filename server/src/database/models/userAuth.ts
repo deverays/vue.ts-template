@@ -1,12 +1,8 @@
 import { Schema, model } from "mongoose";
 
-interface UserAuthTypes {
+interface UserAuthTypes { }
 
-}
-
-const userAuthSchema = new Schema<UserAuthTypes>({
-
-});
+const userAuthSchema = new Schema<UserAuthTypes>({});
 
 export { UserAuthTypes };
 export default model("UserAuth", userAuthSchema);

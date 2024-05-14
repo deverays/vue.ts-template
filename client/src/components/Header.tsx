@@ -1,10 +1,13 @@
-import { defineComponent, ref, onMounted, onUnmounted } from "vue";
-import classNames from "classnames";
-import { ProfileDropdown } from "./shared/Dropdown";
+/**Vue */
+import { defineComponent, ref, onMounted, onUnmounted, h } from "vue";
+
+/**Images */
 import Logo from "../assets/images/logo.png";
 
+/**Lib */
+import { cn } from "../lib/utilts";
+
 const AppHeader = defineComponent({
-  name: "AppHeader",
   setup() {
     const showHeader = ref(true);
     const beforeY = ref(0);
@@ -27,12 +30,12 @@ const AppHeader = defineComponent({
     return { showHeader };
   },
   render() {
-    return (
+    return h(
       <div
-        class={classNames(
+        class={cn(
           "transition-all fixed top-0 max-lg:h-16 lg:h-20 flex items-center justify-between lg:justify-around w-full max-lg:pl-[2%] max-lg:pr-[2%] z-[998]",
           this.showHeader ? "translate-y-0" : "-translate-y-full",
-          "bg-gray-200 dark:bg-dark-100 duration-500"
+          "bg-light-200 dark:bg-dark-100 duration-500"
         )}
       >
         <router-link to="/" class="flex items-center gap-x-4 group relative">
@@ -46,56 +49,9 @@ const AppHeader = defineComponent({
             {import.meta.env.VITE_PROJECT_TITLE}
           </span>
         </router-link>
-        <ProfileDropdown />
       </div>
     );
   },
 });
 
-const DashboardHeader = defineComponent({
-  name: "DashboardHeader",
-  emits: ["showLeftside"],
-  render() {
-    return (
-      <div
-        class={classNames(
-          "transition-all fixed top-0 max-lg:h-16 lg:h-20 flex items-center justify-between w-full pl-[2%] pr-[2%] z-[997]",
-          "bg-gray-200 dark:bg-dark-100"
-        )}
-      >
-        <div class="z-10">
-          <button
-            id="DashboardLeftsideButton"
-            onClick={() => this.$emit("showLeftside")}
-          >
-            <svg
-              width="25"
-              height="25"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="transition-all stroke-black dark:stroke-gray-100"
-            >
-              <path
-                d="M7.283 19H20m0-7H4m16-7h-7.028"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              ></path>
-            </svg>
-          </button>
-        </div>
-        <div class="absolute left-0 right-0 flex w-dvw justify-center z-0 lg:hidden">
-          <h1 class="text-3xl font-poppins-bold text-black dark:text-gray-100 relative">
-            <div class="absolute ml-3 bg-gray-100 w-6 h-6 blur-2xl"></div>
-            {import.meta.env.VITE_PROJECT_TITLE}
-          </h1>
-        </div>
-        <div class="z-10">
-          <ProfileDropdown />
-        </div>
-      </div>
-    );
-  },
-});
-
-export { AppHeader, DashboardHeader };
+export { AppHeader };
